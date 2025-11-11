@@ -1,0 +1,48 @@
+import { Tabs } from "expo-router";
+import { Bot, MessageCircle, Sparkles, User } from "lucide-react-native";
+
+export default function TabsLayout() {
+	return (
+		<Tabs
+			screenOptions={{
+				headerShown: false,
+				tabBarActiveTintColor: "#5B5BFF",
+				tabBarInactiveTintColor: "#8E8E93",
+				tabBarStyle: {
+					backgroundColor: "#FFFFFF",
+					borderTopColor: "#E5E5E5",
+				},
+			}}
+		>
+			<Tabs.Screen
+				name="chats"
+				options={{
+					title: "Chats",
+					tabBarIcon: ({ color }) => <MessageCircle color={color} size={22} strokeWidth={2} />,
+				}}
+			/>
+			<Tabs.Screen
+				name="assistants"
+				options={{
+					title: "Assistants",
+					tabBarIcon: ({ color }) => <Bot color={color} size={22} strokeWidth={2} />,
+				}}
+			/>
+			<Tabs.Screen
+				name="share"
+				options={{
+					title: "Share",
+					tabBarIcon: ({ color }) => <Sparkles color={color} size={22} strokeWidth={2} />,
+				}}
+			/>
+			<Tabs.Screen
+				name="profile"
+				options={{
+					title: "Profile",
+					tabBarIcon: ({ color }) => <User color={color} size={22} strokeWidth={2} />,
+				}}
+			/>
+		</Tabs>
+	);
+}
+
