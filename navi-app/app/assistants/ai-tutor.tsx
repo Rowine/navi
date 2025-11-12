@@ -1,4 +1,4 @@
-import { useNavigation } from "expo-router";
+import { useNavigation, useRouter } from "expo-router";
 import { BookOpen, Calculator, Code, FlaskConical, Globe, GraduationCap, Search } from "lucide-react-native";
 import { useEffect, useMemo, useState } from "react";
 import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
@@ -36,6 +36,7 @@ const getSubjects = (): Subject[] => {
 
 export default function AITutorScreen() {
 	const navigation = useNavigation();
+	const router = useRouter();
 	const [searchQuery, setSearchQuery] = useState("");
 	const subjects = useMemo(() => getSubjects(), []);
 	const [filteredSubjects, setFilteredSubjects] = useState(subjects);
@@ -60,8 +61,7 @@ export default function AITutorScreen() {
 	}, [searchQuery]);
 
 	const handleSubjectPress = (subjectId: string) => {
-		console.log(`Selected subject: ${subjectId}`);
-		// TODO: Navigate to chat screen for this subject
+		router.push(`/assistants/ai-tutor/${subjectId}`);
 	};
 
 	const renderSubject = ({ item }: { item: Subject }) => {
