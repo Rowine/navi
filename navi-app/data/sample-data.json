@@ -1,0 +1,41 @@
+{
+	"subjects": [
+		{
+			"id": "math",
+			"name": "Mathematics",
+			"icon": "Calculator",
+			"description": "Algebra, calculus, geometry, and more"
+		},
+		{
+			"id": "science",
+			"name": "Science",
+			"icon": "FlaskConical",
+			"description": "Physics, chemistry, biology"
+		},
+		{
+			"id": "english",
+			"name": "English",
+			"icon": "BookOpen",
+			"description": "Literature, writing, grammar"
+		},
+		{
+			"id": "history",
+			"name": "History",
+			"icon": "Globe",
+			"description": "World history, social studies"
+		},
+		{
+			"id": "programming",
+			"name": "Programming",
+			"icon": "Code",
+			"description": "Coding, algorithms, software development"
+		},
+		{
+			"id": "general",
+			"name": "General Studies",
+			"icon": "GraduationCap",
+			"description": "General homework help and study tips"
+		}
+	]
+}
+

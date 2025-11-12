@@ -20,13 +20,17 @@ export default function AssistantsScreen() {
 				</View>
 				<Text style={styles.cardText}>School-specific help: maps, offices, policies, schedules.</Text>
 			</TouchableOpacity>
-			<View style={styles.card}>
+			<TouchableOpacity
+				activeOpacity={0.85}
+				onPress={() => router.push("/assistants/ai-tutor")}
+				style={styles.card}
+			>
 				<View style={styles.titleRow}>
 					<GraduationCap color="#5B5BFF" size={20} strokeWidth={2} style={styles.icon} />
 					<Text style={styles.cardTitle}>AI Tutor</Text>
 				</View>
 				<Text style={styles.cardText}>Homework help, explanations, and practice problems.</Text>
-			</View>
+			</TouchableOpacity>
 		</View>
 	);
 }

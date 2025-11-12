@@ -13,6 +13,10 @@ export default function AssistantsLayout() {
 				name="campus-navigator"
 				options={{ title: "Campus Navigator" }}
 			/>
+			<Stack.Screen
+				name="ai-tutor"
+				options={{ title: "AI Tutor" }}
+			/>
 		</Stack>
 	);
 }
