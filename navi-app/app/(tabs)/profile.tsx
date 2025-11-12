@@ -1,4 +1,4 @@
-import { router } from "expo-router";
+import { router, Href } from "expo-router";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function ProfileScreen() {
@@ -10,7 +10,7 @@ export default function ProfileScreen() {
 			</View>
 			<TouchableOpacity
 				style={styles.card}
-				onPress={() => router.push("/account")}
+				onPress={() => router.push("/account" as Href)}
 				activeOpacity={0.85}
 			>
 				<Text style={styles.cardTitle}>Account</Text>

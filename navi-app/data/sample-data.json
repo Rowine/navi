@@ -42,7 +42,8 @@
 		"email": "john.doe@university.edu",
 		"course": "Computer Science",
 		"studentId": "2024-12345",
-		"profileImage": null
+		"profileImage": null,
+		"points": 1250
 	}
 }
 
