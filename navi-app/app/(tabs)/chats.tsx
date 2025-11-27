@@ -1,7 +1,7 @@
 import { Bot, MapPin, MessageCircle } from "lucide-react-native";
-import { router } from "expo-router";
-import { useMemo } from "react";
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { router, Href } from "expo-router";
+import { useMemo, useState } from "react";
+import { FlatList, Modal, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import sampleData from "../../data/sample-data.json";
 
 interface Chat {
@@ -15,18 +15,59 @@ interface Chat {
 
 export default function ChatsScreen() {
 	const chats = useMemo(() => (sampleData.chats as Chat[]) || [], []);
+	const [assistantModalVisible, setAssistantModalVisible] = useState(false);
+	const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
+
+	const openAssistantModal = (chat?: Chat) => {
+		setSelectedChat(chat ?? null);
+		setAssistantModalVisible(true);
+	};
+
+	const closeAssistantModal = () => {
+		setAssistantModalVisible(false);
+		setSelectedChat(null);
+	};
+
+	const handleAssistantSelect = (assistant: "campus" | "tutor") => {
+		if (selectedChat) {
+			if (assistant === "campus") {
+				router.push({
+					pathname: "/assistants/campus-navigator",
+					params: { chatId: selectedChat.id },
+				} as Href);
+			} else {
+				const subject = selectedChat.subject ?? "general";
+				if (selectedChat.subject) {
+					router.push({
+						pathname: `/assistants/ai-tutor/${subject}`,
+						params: { chatId: selectedChat.id },
+					} as Href);
+				} else {
+					router.push("/assistants/ai-tutor" as Href);
+				}
+			}
+		} else {
+			if (assistant === "campus") {
+				router.push("/assistants/campus-navigator" as Href);
+			} else {
+				router.push("/assistants/ai-tutor" as Href);
+			}
+		}
+
+		closeAssistantModal();
+	};
 
 	const handleChatPress = (chat: Chat) => {
 		if (chat.modelType === "Campus Navigator") {
 			router.push({
 				pathname: "/assistants/campus-navigator",
 				params: { chatId: chat.id },
-			} as any);
+			} as Href);
 		} else if (chat.modelType === "AI Tutor" && chat.subject) {
 			router.push({
 				pathname: `/assistants/ai-tutor/${chat.subject}`,
 				params: { chatId: chat.id },
-			} as any);
+			} as Href);
 		}
 	};
 
@@ -98,10 +139,43 @@ export default function ChatsScreen() {
 			<TouchableOpacity
 				style={styles.fab}
 				activeOpacity={0.85}
-				onPress={() => router.push("/(tabs)/home")}
+				onPress={() => openAssistantModal()}
 			>
 				<Text style={styles.fabText}>＋</Text>
 			</TouchableOpacity>
+
+			<Modal visible={assistantModalVisible} transparent animationType="fade" onRequestClose={closeAssistantModal}>
+				<Pressable style={styles.modalOverlay} onPress={closeAssistantModal}>
+					<View style={styles.modalCard}>
+						<Text style={styles.modalTitle}>Open with</Text>
+						<Text style={styles.modalSubtitle}>Choose an AI assistant</Text>
+
+						<View style={styles.modalOptions}>
+							<TouchableOpacity
+								style={styles.modalButton}
+								activeOpacity={0.85}
+								onPress={() => handleAssistantSelect("campus")}
+							>
+								<MapPin color="#5B5BFF" size={20} strokeWidth={2} />
+								<Text style={styles.modalButtonText}>Campus Navigator</Text>
+							</TouchableOpacity>
+
+							<TouchableOpacity
+								style={styles.modalButton}
+								activeOpacity={0.85}
+								onPress={() => handleAssistantSelect("tutor")}
+							>
+								<Bot color="#5B5BFF" size={20} strokeWidth={2} />
+								<Text style={styles.modalButtonText}>AI Tutor</Text>
+							</TouchableOpacity>
+						</View>
+
+						<TouchableOpacity style={styles.modalCancel} onPress={closeAssistantModal}>
+							<Text style={styles.modalCancelText}>Cancel</Text>
+						</TouchableOpacity>
+					</View>
+				</Pressable>
+			</Modal>
 		</View>
 	);
 }
@@ -219,6 +293,61 @@ const styles = StyleSheet.create({
 		lineHeight: 28,
 		fontWeight: "700",
 		marginTop: -2,
+	},
+	modalOverlay: {
+		flex: 1,
+		backgroundColor: "rgba(0, 0, 0, 0.4)",
+		alignItems: "center",
+		justifyContent: "center",
+		padding: 24,
+	},
+	modalCard: {
+		width: "100%",
+		maxWidth: 340,
+		backgroundColor: "#FFFFFF",
+		borderRadius: 24,
+		padding: 24,
+		shadowColor: "#000",
+		shadowOffset: { width: 0, height: 6 },
+		shadowOpacity: 0.15,
+		shadowRadius: 16,
+		elevation: 10,
+	},
+	modalTitle: {
+		fontSize: 20,
+		fontWeight: "700",
+		color: "#1A1A1A",
+		marginBottom: 4,
+	},
+	modalSubtitle: {
+		fontSize: 14,
+		color: "#6B7280",
+		marginBottom: 20,
+	},
+	modalOptions: {
+		gap: 12,
+	},
+	modalButton: {
+		flexDirection: "row",
+		alignItems: "center",
+		gap: 10,
+		padding: 14,
+		borderRadius: 16,
+		backgroundColor: "#F3F4F6",
+	},
+	modalButtonText: {
+		fontSize: 15,
+		fontWeight: "600",
+		color: "#1A1A1A",
+	},
+	modalCancel: {
+		marginTop: 16,
+		alignItems: "center",
+	},
+	modalCancelText: {
+		fontSize: 15,
+		fontWeight: "600",
+		color: "#5B5BFF",
 	},
 });
 
