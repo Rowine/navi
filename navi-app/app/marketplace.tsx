@@ -160,7 +160,7 @@ export default function MarketplaceScreen() {
 				<Text style={styles.navTitle}>Marketplace</Text>
 				<View style={{ width: 40 }} />
 			</View>
-			<Text style={styles.subtitle}>Redeem your Stardust points</Text>
+			<Text style={styles.subtitle}>Exchange your Stardust points</Text>
 
 			{marketplaceData.map((section) => (
 				<View key={section.id} style={styles.section}>
